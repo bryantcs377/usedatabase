@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     ;
 
-    protected void viewGrade(View v) {
+    protected void viewGrades(View v) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] projection = {
