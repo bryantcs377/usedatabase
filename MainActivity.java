@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    ;
+    // Define a projection that specifies which columns from the database
+    // you will actually use after this query.
 
     protected void viewGrades(View v) {
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -57,27 +58,39 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-// Define a projection that specifies which columns from the database
-// you will actually use after this query.
-        String sortOrder = GradeContract.Grade.COLUMN_NAME_COURSE + "ASC";
+// Filter results WHERE "title" = 'My Title'
+        // String selection = FeedEntry.COLUMN_NAME_COURSE + " = ?";
+        //String[] selectionArgs = { "History of Europe" };
+
+// How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                GradeContract.Grade.COLUMN_NAME_COURSE + " ASC";
 
         Cursor c = db.query(
-                GradeContract.Grade.TABLE_NAME,
+
+                GradeContract.Grade.TABLE_NAME,                     // The table to query
                 projection,                               // The columns to return
-                null, null, null, null,                                // The columns for the WHERE clause
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
+
+
         boolean more = c.moveToFirst();
         String result = "";
-        while (more) {
+        while(more == true) {
+
             String event = c.getString(c.getColumnIndexOrThrow(GradeContract.Grade.COLUMN_NAME_EVENT));
             String grade = c.getString(c.getColumnIndexOrThrow(GradeContract.Grade.COLUMN_NAME_GRADE));
             String course = c.getString(c.getColumnIndexOrThrow(GradeContract.Grade.COLUMN_NAME_COURSE));
-
-            result += event + ": " + grade + " (" + course + ")\n";
+            result += event +": " + grade + " (" + course + ") \n";
             more = c.moveToNext();
         }
-        ;
+
         ((TextView) findViewById(R.id.success)).setText(result);
     }
+
 }
+
