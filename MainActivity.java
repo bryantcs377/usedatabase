@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Create a new map of field values, where column names are the keys
+        //   ***  PreLoad 4 or 5 Reviews ???
         ContentValues values = new ContentValues();
+
         values.put(GradeContract.Grade.COLUMN_NAME_EVENT, event);
         values.put(GradeContract.Grade.COLUMN_NAME_GRADE, grade);
         values.put(GradeContract.Grade.COLUMN_NAME_COURSE, course);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor c = db.query(
 
-                GradeContract.Grade.TABLE_NAME,                     // The table to query
+                GradeContract.Grade.TABLE_NAME,           // The table to query
                 projection,                               // The columns to return
                 null,                                     // The columns for the WHERE clause *** ? FILTER
                 null,                                     // The values for the WHERE clause *** ? FILTER
@@ -94,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
             result += event +": " + grade + " (" + course + ") \n";
             more = c.moveToNext();
         }
-
+        //  **** Might set fields with ListView??
         ((TextView) findViewById(R.id.success)).setText(result);
+
     }
 
 }
