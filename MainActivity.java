@@ -18,22 +18,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+     // ***********************
         helper = new GradeDbHelper(this);
         db = helper.getWritableDatabase();
     }
-
+    //**********************
     protected void addGrade(View v) {
+        // Retrieve fields from screen
         String event = ((EditText) findViewById(R.id.event)).getText().toString();
         String grade = ((EditText) findViewById(R.id.grade)).getText().toString();
         String course = ((EditText) findViewById(R.id.course)).getText().toString();
 
 
-// Create a new map of values, where column names are the keys
+        // Create a new map of field values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(GradeContract.Grade.COLUMN_NAME_EVENT, event);
         values.put(GradeContract.Grade.COLUMN_NAME_GRADE, grade);
         values.put(GradeContract.Grade.COLUMN_NAME_COURSE, course);
-// Insert the new row, returning the primary key value of the new row
+    // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(GradeContract.Grade.TABLE_NAME, null, values);
         if (newRowId == -1) {
             TextView txt = (TextView) findViewById(R.id.success);
@@ -58,11 +61,14 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-// Filter results WHERE "title" = 'My Title'
+        //   FeedEntry???  Connect with Query???
+        // Filter results WHERE "title" = 'My Title'
         // String selection = FeedEntry.COLUMN_NAME_COURSE + " = ?";
         //String[] selectionArgs = { "History of Europe" };
 
-// How you want the results sorted in the resulting Cursor
+        // How you want the results sorted in the resulting Cursor
+        //   **** If we know column name, this will give column sort
+        //   **** How to get FILTER value??
         String sortOrder =
                 GradeContract.Grade.COLUMN_NAME_COURSE + " ASC";
 
@@ -70,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
                 GradeContract.Grade.TABLE_NAME,                     // The table to query
                 projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
+                null,                                     // The columns for the WHERE clause *** ? FILTER
+                null,                                     // The values for the WHERE clause *** ? FILTER
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
